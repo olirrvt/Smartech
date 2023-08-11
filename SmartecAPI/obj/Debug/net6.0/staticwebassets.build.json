@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "eWKgKZxd3JFuE1RpobZKxEnwSJdS/eqEruSPYAiS0K8=",
+  "Source": "SmartecAPI",
+  "BasePath": "_content/SmartecAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
