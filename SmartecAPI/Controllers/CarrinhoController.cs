@@ -74,6 +74,37 @@ namespace SmartecAPI.Controllers
             return Ok("Item removido do carrinho.");
         }
 
+        [HttpPut("{carrinhoId}/atualizarQuantidade/{itemId}")]
+        public async Task<IActionResult> AtualizarQuantidadeDoItem(int carrinhoId, int itemId, [FromBody] int novaQuantidade)
+        {
+            var carrinho = await _smartecContext.Carrinhos
+                .Include(c => c.ItensCarrinhos)
+                .ThenInclude(i => i.IdDoProdutoNavigation)
+                .FirstOrDefaultAsync(c => c.IdDoCarrinho == carrinhoId);
+
+            if (carrinho == null)
+            {
+                return NotFound("Carrinho não encontrado.");
+            }
+
+            var item = carrinho.ItensCarrinhos.FirstOrDefault(i => i.Id == itemId);
+
+            if (item == null)
+            {
+                return NotFound("Item não encontrado no carrinho.");
+            }
+
+            if (novaQuantidade <= 0)
+            {
+                return BadRequest("A nova quantidade deve ser maior que zero.");
+            }
+
+            item.Quantidade = novaQuantidade;
+            await _smartecContext.SaveChangesAsync();
+
+            return Ok("Quantidade do item atualizada no carrinho.");
+        }
+
         [HttpGet("{carrinhoId}/verItensCarrinho")]
         public async Task<IActionResult> VerItensCarrinho(int carrinhoId)
         {
